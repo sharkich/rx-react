@@ -9,3 +9,13 @@
 .table tr td {
     border: 1px solid #ccc;
 }
+
+.cell {
+    background: #eee;
+    color: #333;
+}
+
+.cell.hover {
+    background: #666;
+    color: #fff;
+}
