@@ -19,3 +19,7 @@
     background: #666;
     color: #fff;
 }
+
+.cell.highlighted {
+    background: yellow;
+}

@@ -14,7 +14,8 @@ export const Table: FC<Props> = ({ size, hover, onHover }) => {
     <table className="table">
       {line.map((_, indexRow) => (
         <Row
-          hover={hover.indexRow === indexRow ? hover.indexCol : null}
+          highlightedCellIndex={hover.indexCol}
+          hoveredIndexCol={hover.indexRow === indexRow ? hover.indexCol : null}
           indexRow={indexRow}
           key={`tr_${indexRow}`}
           line={line}

@@ -4,17 +4,19 @@ import { Cell } from './Cell';
 
 interface Props {
   indexRow: number;
+  highlightedCellIndex: number;
   line: null[];
   onHover: (indexCol: number) => void;
-  hover: number | null;
+  hoveredIndexCol: number | null;
 }
 
-export const Row: FC<Props> = ({ indexRow, line, onHover, hover }) => {
+export const Row: FC<Props> = ({ indexRow, highlightedCellIndex, line, onHover, hoveredIndexCol }) => {
   return (
     <tr>
       {line.map((_, indexCol) => (
         <Cell
-          hover={hover === indexCol}
+          highlighted={highlightedCellIndex === indexCol || hoveredIndexCol !== null}
+          hovered={hoveredIndexCol === indexCol}
           indexCol={indexCol}
           indexRow={indexRow}
           key={indexCol}

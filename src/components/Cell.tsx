@@ -4,13 +4,14 @@ interface Props {
   indexRow: number;
   indexCol: number;
   onHover: () => void;
-  hover: boolean;
+  hovered: boolean;
+  highlighted: boolean;
 }
 
-export const Cell: FC<Props> = ({ indexRow, indexCol, onHover, hover }) => {
+export const Cell: FC<Props> = ({ indexRow, indexCol, onHover, hovered, highlighted }) => {
   return (
     <td
-      className={hover ? 'cell hover' : 'cell'}
+      className={hovered ? 'cell hover' : highlighted ? 'highlighted' : 'cell'}
       key={`td_${indexCol}`}
       onMouseOver={onHover}
     >{`${indexRow}.${indexCol}`}</td>
