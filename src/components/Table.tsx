@@ -12,16 +12,18 @@ export const Table: FC<Props> = ({ size, hover, onHover }) => {
   const line = new Array(size).fill(null);
   return (
     <table className="table">
-      {line.map((_, indexRow) => (
-        <Row
-          highlightedCellIndex={hover.indexCol}
-          hoveredIndexCol={hover.indexRow === indexRow ? hover.indexCol : null}
-          indexRow={indexRow}
-          key={`tr_${indexRow}`}
-          line={line}
-          onHover={(indexCol) => onHover(indexRow, indexCol)}
-        />
-      ))}
+      <tbody>
+        {line.map((_, indexRow) => (
+          <Row
+            highlightedCellIndex={hover.indexCol}
+            hoveredIndexCol={hover.indexRow === indexRow ? hover.indexCol : null}
+            indexRow={indexRow}
+            key={`tr_${indexRow}`}
+            line={line}
+            onHover={(indexCol) => onHover(indexRow, indexCol)}
+          />
+        ))}
+      </tbody>
     </table>
   );
 };

@@ -6,17 +6,20 @@ interface Props {
 }
 
 export const Timer: FC<Props> = ({ start, hovered }) => {
-  const [timer, setTimer] = useState(start);
+  const [value, setValue] = useState(start);
+  const [timer, setTimer] = useState<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    setTimer(start);
-  }, [start]);
-
-  setInterval(() => {
     if (hovered) {
-      setTimer((value) => value + 1);
+      setTimer(
+        setInterval(() => {
+          setValue((val) => val + 1);
+        }, 10)
+      );
+    } else if (timer) {
+      clearInterval(timer);
     }
-  }, 10);
+  }, [hovered]);
 
-  return <div>{timer}</div>;
+  return <div>{value}</div>;
 };
