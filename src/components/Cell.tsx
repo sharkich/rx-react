@@ -1,36 +1,45 @@
-import { FC, useEffect, useState } from 'react';
-import { Observable } from 'rxjs';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { Observable, Subject } from 'rxjs';
 
 import { Timer } from './Timer';
 
 interface Props {
   indexRow: number;
   indexCol: number;
-  onHover: () => void;
-  hovered$: Observable<boolean>;
-  highlighted$: Observable<boolean>;
+  hover$: Subject<{ indexRow: number; indexCol: number }>;
 }
 
-export const Cell: FC<Props> = ({ indexRow, indexCol, onHover, hovered$, highlighted$ }) => {
+export const Cell: FC<Props> = ({ indexRow, indexCol, hover$ }) => {
   const [hovered, setHovered] = useState(false);
   const [highlighted, setHighlighted] = useState(false);
 
+  const onChange = (hover: { indexRow: number; indexCol: number }) => {
+    if (hover.indexRow === indexRow && hover.indexCol === indexCol) {
+      setHovered(true);
+    } else {
+      setHovered(false);
+      if (hover.indexRow === indexRow || hover.indexCol === indexCol) {
+        setHighlighted(true);
+      } else {
+        setHighlighted(false);
+      }
+    }
+  };
+
   useEffect(() => {
-    const subsHovered$ = hovered$.subscribe(setHovered);
-    const subsHighlighted$ = highlighted$.subscribe(setHighlighted);
-    console.log('hovered$ & highlighted$ .subscribe');
+    const subsHovered$ = hover$.subscribe(onChange);
     return () => {
       subsHovered$.unsubscribe();
-      subsHighlighted$.unsubscribe();
-      console.log('hovered$ & highlighted$ .unsubscribe');
     };
-  }, [hovered$, highlighted$]);
+  }, []);
+
+  const onMouseOver = useCallback(() => hover$.next({ indexRow, indexCol }), []);
 
   return (
     <td
       className={hovered ? 'cell hover' : highlighted ? 'highlighted' : 'cell'}
       key={`td_${indexCol}`}
-      onMouseOver={onHover}
+      onMouseOver={onMouseOver}
     >
       {/*<Timer hovered$={hovered$} start={Number(`${indexRow}${indexCol}`)} />*/}
       {`${indexRow}${indexCol}`}

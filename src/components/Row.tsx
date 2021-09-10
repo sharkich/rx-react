@@ -1,46 +1,19 @@
-import { FC, useCallback, useMemo } from 'react';
-import { combineLatest, distinctUntilChanged, map, Observable } from 'rxjs';
+import { FC } from 'react';
+import { Subject } from 'rxjs';
 
 import { Cell } from './Cell';
 
 interface Props {
   indexRow: number;
-  highlightedCellIndex$: Observable<number>;
   line: null[];
-  onHover: (indexCol: number) => void;
-  hoveredIndexCol$: Observable<number | null>;
+  hover$: Subject<{ indexRow: number; indexCol: number }>;
 }
 
-export const Row: FC<Props> = ({ indexRow, highlightedCellIndex$, line, onHover, hoveredIndexCol$ }) => {
-  const highlighted$ = useCallback(
-    (indexCol: number) =>
-      combineLatest([highlightedCellIndex$, hoveredIndexCol$]).pipe(
-        map(([highlightedCellIndex, hoveredIndexCol]) => highlightedCellIndex === indexCol || hoveredIndexCol !== null),
-        distinctUntilChanged()
-      ),
-    [highlightedCellIndex$, hoveredIndexCol$]
-  );
-
-  const hovered$ = useCallback(
-    (indexCol: number) =>
-      hoveredIndexCol$.pipe(
-        map((hoveredIndexCol) => hoveredIndexCol === indexCol),
-        distinctUntilChanged()
-      ),
-    [hoveredIndexCol$]
-  );
-
+export const Row: FC<Props> = ({ indexRow, hover$, line }) => {
   return (
     <tr>
       {line.map((_, indexCol) => (
-        <Cell
-          highlighted$={highlighted$(indexCol)}
-          hovered$={hovered$(indexCol)}
-          indexCol={indexCol}
-          indexRow={indexRow}
-          key={indexCol}
-          onHover={() => onHover(indexCol)}
-        />
+        <Cell hover$={hover$} indexCol={indexCol} indexRow={indexRow} key={indexCol} />
       ))}
     </tr>
   );
