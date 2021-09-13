@@ -3,6 +3,8 @@ import { Observable, Subject } from 'rxjs';
 
 import { Timer } from './Timer';
 
+const rendersCounts: { [key: string]: number } = {};
+
 interface Props {
   indexRow: number;
   indexCol: number;
@@ -35,14 +37,17 @@ export const Cell: FC<Props> = ({ indexRow, indexCol, hover$ }) => {
 
   const onMouseOver = useCallback(() => hover$.next({ indexRow, indexCol }), []);
 
+  rendersCounts[`${indexRow}${indexCol}`] = rendersCounts[`${indexRow}${indexCol}`]
+    ? rendersCounts[`${indexRow}${indexCol}`] + 1
+    : 1;
+
   return (
     <td
       className={hovered ? 'cell hover' : highlighted ? 'highlighted' : 'cell'}
       key={`td_${indexCol}`}
       onMouseOver={onMouseOver}
     >
-      {/*<Timer hovered$={hovered$} start={Number(`${indexRow}${indexCol}`)} />*/}
-      {`${indexRow}${indexCol}`}
+      {`${rendersCounts[`${indexRow}${indexCol}`]}`}
     </td>
   );
 };
