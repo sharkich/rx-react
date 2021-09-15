@@ -1,6 +1,8 @@
-import { FC } from 'react';
+import _ from 'lodash';
+import { FC, useEffect, useState } from 'react';
+import { map } from 'rxjs';
 
-import { renderInc, renders } from '../models/renders';
+import { renderInc } from '../models/renders';
 import { selected$ } from '../models/selected$';
 
 interface Props {
@@ -9,12 +11,27 @@ interface Props {
 }
 
 export const Cell: FC<Props> = ({ indexRow, indexCol }) => {
-  const id = `${indexRow}${indexCol}`;
+  const id = `${indexRow}.${indexCol}`;
   renderInc(id);
-  console.log(`cell.${id}.${renders[id]}.render`);
+  console.log(`render.cell.${id}`);
+
+  const [isSelected, setIsSelected] = useState(false);
+  useEffect(() => {
+    const subscription$ = selected$
+      .pipe(map((selected) => _.isEqual(selected, { indexRow, indexCol })))
+      .subscribe(setIsSelected);
+    return () => {
+      subscription$.unsubscribe();
+    };
+  }, [indexRow, indexCol]);
+
   return (
-    <td className={'cell'} key={`td_${id}`} onClick={() => selected$.next({ indexRow, indexCol })}>
-      {renders[id]}
+    <td
+      className={isSelected ? 'selected-cell' : 'cell'}
+      key={`td_${id}`}
+      onClick={() => selected$.next({ indexRow, indexCol })}
+    >
+      {id}
     </td>
   );
 };

@@ -15,11 +15,7 @@
     color: #333;
 }
 
-.cell.hover {
+.selected-cell {
     background: #666;
     color: #fff;
-}
-
-.cell.highlighted {
-    background: yellow;
 }
