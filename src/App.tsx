@@ -1,19 +1,28 @@
 import './App.css';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { selected$ } from './models/selected$';
 import { size$ } from './models/size$';
-import { useSubscribe } from './utils/useSubscribe';
+import { Header } from './views/Header';
 import { SizeForm } from './views/SizeForm';
+import { Table } from './views/Table';
 
 export const App = () => {
-  const size = useSubscribe(size$);
+  console.log('app.render');
+
+  useEffect(() => {
+    const subscription = size$.subscribe(() => selected$.next(null));
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">Hello World ({size})</header>
+      <Header />
       <SizeForm />
-      {/*{JSON.stringify(hovered)}*/}
-      {/*<Table hover$={hover$} size={30} />*/}
+      <Table />
     </div>
   );
 };

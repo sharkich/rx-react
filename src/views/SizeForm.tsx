@@ -22,6 +22,22 @@ export const SizeForm: FC = () => {
       }}
     >
       <input value={value} onChange={(event) => setValue(event.target.value)} />
+      <button
+        onClick={(event) => {
+          event.preventDefault();
+          setValue(`${Number(value) - 1}`);
+        }}
+      >
+        &minus;
+      </button>
+      <button
+        onClick={(event) => {
+          event.preventDefault();
+          setValue(`${Number(value) + 1}`);
+        }}
+      >
+        +
+      </button>
       <button type="submit">submit</button>
     </form>
   );
