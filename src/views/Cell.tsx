@@ -1,37 +1,26 @@
-import _ from 'lodash';
-import { FC, useEffect, useState } from 'react';
-import { map } from 'rxjs';
+import { FC } from 'react';
+import { Observable } from 'rxjs';
 
 import { renderInc } from '../models/renders';
-import { selected$ } from '../models/selected$';
+import { useSubscribe } from '../utils/useSubscribe';
 
 interface Props {
   indexRow: number;
   indexCol: number;
+  selected$: Observable<boolean>;
+  onSelect: () => void;
 }
 
-export const Cell: FC<Props> = ({ indexRow, indexCol }) => {
+export const Cell: FC<Props> = ({ indexRow, indexCol, selected$, onSelect }) => {
   const id = `${indexRow}.${indexCol}`;
   renderInc(id);
   console.log(`render.cell.${id}`);
 
-  const [isSelected, setIsSelected] = useState(false);
-  useEffect(() => {
-    const subscription$ = selected$
-      .pipe(map((selected) => _.isEqual(selected, { indexRow, indexCol })))
-      .subscribe(setIsSelected);
-    return () => {
-      subscription$.unsubscribe();
-    };
-  }, [indexRow, indexCol]);
+  const isSelected = useSubscribe(selected$);
 
   return (
-    <td
-      className={isSelected ? 'selected-cell' : 'cell'}
-      key={`td_${id}`}
-      onClick={() => selected$.next({ indexRow, indexCol })}
-    >
+    <div className={'cell ' + (isSelected ? 'selected' : '')} key={`td_${id}`} onClick={onSelect}>
       {id}
-    </td>
+    </div>
   );
 };

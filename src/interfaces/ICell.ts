@@ -1,4 +1,4 @@
-export interface Cell {
+export interface ICell {
   indexRow: number;
   indexCol: number;
 }

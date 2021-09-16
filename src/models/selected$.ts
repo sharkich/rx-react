@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-import { Cell } from '../interfaces/cell';
+import { ICell } from '../interfaces/ICell';
 import { Optional } from '../interfaces/Optional';
 
-export const selected$ = new BehaviorSubject<Optional<Cell>>(null);
+export const selected$ = new BehaviorSubject<Optional<ICell>>(null);

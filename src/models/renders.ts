@@ -11,7 +11,7 @@ export const renderInc = (id: string) => {
   } else {
     renders[id]++;
   }
-  console.log('render', id, renders[id]);
+  // console.log('render', id, renders[id]);
   return renders[id];
 };
 
