@@ -7,7 +7,6 @@ import { useSubscribe } from '../utils/useSubscribe';
 export const Header: FC = () => {
   const size = useSubscribe(size$, SIZE_DEFAULT_VALUE);
   const selected = useSubscribe(selected$, null);
-  console.log('Header.render', { size, selected });
 
   return (
     <header className="App-header">

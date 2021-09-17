@@ -21,7 +21,6 @@ export const Row: FC<Props> = ({ indexRow, line, selectedCol$, onSelect }) => {
     };
   }, [selectedCol$]);
 
-  console.log(`row.${indexRow}.render`);
   return (
     <div className={'row ' + (isSelected ? 'selected' : '')}>
       {line.map((_, indexCol) => (

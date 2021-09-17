@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { Observable } from 'rxjs';
 
-import { renderInc } from '../models/renders';
 import { useSubscribe } from '../utils/useSubscribe';
 
 interface Props {
@@ -13,8 +12,6 @@ interface Props {
 
 export const Cell: FC<Props> = ({ indexRow, indexCol, selected$, onSelect }) => {
   const id = `${indexRow}.${indexCol}`;
-  renderInc(id);
-  console.log(`render.cell.${id}`);
 
   const isSelected = useSubscribe(selected$);
 

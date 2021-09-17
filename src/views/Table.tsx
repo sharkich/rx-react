@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { map } from 'rxjs';
 
+import { Row } from '../components/Row';
 import { ICell } from '../interfaces/ICell';
 import { selected$ } from '../models/selected$';
 import { table$ } from '../models/table$';
 import { useSubscribe } from '../utils/useSubscribe';
-import { Row } from './Row';
 
 export const Table: FC = () => {
   const table = useSubscribe(table$);
@@ -25,8 +25,6 @@ export const Table: FC = () => {
   const onSelect = (cell: ICell) => {
     selected$.next(cell);
   };
-
-  console.log('table.render');
 
   return (
     <div className={'table ' + (isSelected ? 'selected' : '')}>

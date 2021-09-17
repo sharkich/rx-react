@@ -9,8 +9,6 @@ import { SizeForm } from './views/SizeForm';
 import { Table } from './views/Table';
 
 export const App = () => {
-  console.log('app.render');
-
   useEffect(() => {
     const subscription = size$.subscribe(() => selected$.next(null));
     return () => {
