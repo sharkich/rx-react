@@ -1,18 +1,10 @@
-import { FC, useEffect, useState } from 'react';
-
-import { size$ } from '../models/size$';
-import { useSubscribe } from '../utils/useSubscribe';
+import { FC, useState } from 'react';
 
 export const SizeForm: FC = () => {
-  const size = useSubscribe(size$);
-  const [value, setValue] = useState(`${size || ''}`);
-  useEffect(() => {
-    setValue(`${size || ''}`);
-  }, [size]);
+  const [value, setValue] = useState(``);
 
   const onSubmit = () => {
     setValue('');
-    size$.next(Number(value));
   };
   return (
     <form

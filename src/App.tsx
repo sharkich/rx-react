@@ -1,26 +1,20 @@
 import './App.css';
 
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
-import { selected$ } from './models/selected$';
-import { size$ } from './models/size$';
+import { getTable } from './models/table';
 import { Header } from './views/Header';
 import { SizeForm } from './views/SizeForm';
 import { Table } from './views/Table';
 
 export const App = () => {
-  useEffect(() => {
-    const subscription = size$.subscribe(() => selected$.next(null));
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
+  const [size] = useState(10);
+  const [table] = useState(getTable(size));
   return (
     <div className="App">
       <Header />
       <SizeForm />
-      <Table />
+      <Table table={table} />
     </div>
   );
 };

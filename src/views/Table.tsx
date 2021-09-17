@@ -1,43 +1,20 @@
-import { FC, useEffect, useState } from 'react';
-import { map } from 'rxjs';
+import { FC } from 'react';
 
 import { Row } from '../components/Row';
-import { ICell } from '../interfaces/ICell';
-import { selected$ } from '../models/selected$';
-import { table$ } from '../models/table$';
-import { useSubscribe } from '../utils/useSubscribe';
 
-export const Table: FC = () => {
-  const table = useSubscribe(table$);
+interface Props {
+  table: number[][];
+}
 
-  const [isSelected, setIsSelected] = useState(false);
-  useEffect(() => {
-    const subscription$ = selected$.pipe(map((selected) => !!selected)).subscribe(setIsSelected);
-    return () => {
-      subscription$.unsubscribe();
-    };
-  }, []);
-
+export const Table: FC<Props> = ({ table }) => {
   if (!table) {
     return null;
   }
 
-  const onSelect = (cell: ICell) => {
-    selected$.next(cell);
-  };
-
   return (
-    <div className={'table ' + (isSelected ? 'selected' : '')}>
+    <div className="table">
       {table.map((row, indexRow) => (
-        <Row
-          indexRow={indexRow}
-          key={`tr_${indexRow}`}
-          line={row}
-          selectedCol$={selected$.pipe(
-            map((selected) => (selected && indexRow === selected.indexRow ? selected.indexCol : null))
-          )}
-          onSelect={onSelect}
-        />
+        <Row indexRow={indexRow} key={`tr_${indexRow}`} line={row} />
       ))}
     </div>
   );
