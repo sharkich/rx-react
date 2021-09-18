@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { selected$ } from '../../models/selected';
 import { size$ } from '../../models/size';
 
 export const useViewModel = () => {
@@ -14,6 +15,7 @@ export const useViewModel = () => {
   const onSubmit = () => {
     console.log('value', value);
     size$.next(Number(value));
+    selected$.next(null);
   };
 
   return {
