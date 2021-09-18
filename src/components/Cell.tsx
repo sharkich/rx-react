@@ -1,16 +1,12 @@
 import { FC } from 'react';
 
 interface Props {
-  indexRow: number;
-  indexCol: number;
+  id: string;
+  onSelect: () => void;
 }
 
-export const Cell: FC<Props> = ({ indexRow, indexCol }) => {
-  const id = `${indexRow}.${indexCol}`;
-
-  return (
-    <div className="cell" key={`td_${id}`}>
-      {id}
-    </div>
-  );
-};
+export const Cell: FC<Props> = ({ id, onSelect }) => (
+  <div className="cell" key={`td_${id}`} onClick={onSelect}>
+    {id}
+  </div>
+);
