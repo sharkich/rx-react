@@ -1,11 +1,10 @@
 import { FC } from 'react';
 
-import { Row } from '../components/Row';
-import { table$ } from '../models/table';
-import { useSubscribe } from '../utils/useSubscribe';
+import { Row } from '../../components/Row';
+import { useViewModel } from './useViewModel';
 
 export const Table: FC = () => {
-  const table = useSubscribe(table$);
+  const { table } = useViewModel();
   if (!table) {
     return null;
   }
