@@ -1,16 +1,14 @@
 import { FC } from 'react';
 
 import { Row } from '../components/Row';
+import { table$ } from '../models/table';
+import { useSubscribe } from '../utils/useSubscribe';
 
-interface Props {
-  table: number[][];
-}
-
-export const Table: FC<Props> = ({ table }) => {
+export const Table: FC = () => {
+  const table = useSubscribe(table$);
   if (!table) {
     return null;
   }
-
   return (
     <div className="table">
       {table.map((row, indexRow) => (

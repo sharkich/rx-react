@@ -1,11 +1,9 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
+
+import { useViewModel } from './useViewModel';
 
 export const SizeForm: FC = () => {
-  const [value, setValue] = useState(``);
-
-  const onSubmit = () => {
-    setValue('');
-  };
+  const { onSubmit, value, setValue } = useViewModel();
   return (
     <form
       onSubmit={(event) => {
