@@ -22,5 +22,8 @@ export const useViewModel = () => {
     };
   }, []);
 
-  return { table, onSelect, selected };
+  const getSelectedRow = (indexRow: number) =>
+    selected$.pipe(map((value) => (value && value.indexRow === indexRow ? value.indexCol : null)));
+
+  return { table, onSelect, selected, getSelectedRow };
 };
