@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { map } from 'rxjs';
+
 import { ICell } from '../../interfaces/ICell';
 import { selected$ } from '../../models/selected';
 import { table$ } from '../../models/table';
@@ -11,5 +14,13 @@ export const useViewModel = () => {
     selected$.next(cell);
   };
 
-  return { table, onSelect };
+  const [selected, useSelected] = useState(false);
+  useEffect(() => {
+    const subscription = selected$.pipe(map((cell) => !!cell)).subscribe(useSelected);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  return { table, onSelect, selected };
 };
